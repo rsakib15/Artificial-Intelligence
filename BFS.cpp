@@ -68,11 +68,18 @@ using namespace std;
 ///************************************************************///
 typedef long long LL;
 typedef unsigned long long ULL;
-typedef pair<int, int> pii;
-typedef pair<long long, long long> pll;
-typedef pair<int, string> pis;
-typedef priority_queue<int> pq;
+typedef pair<int, int> PII;
+typedef pair<long long, long long> PLL;
+typedef pair<int, string> PIS;
+typedef priority_queue<int> PQ;
+///************************************************************///
 
+int dx[] = {-1, 1, 0, 0, -1, -1, 1, 1};
+int dy[] = {0, 0, 1, -1, -1, 1, -1, 1};
+
+///************************************************************///
+
+///************************Template End************************///
 
 const int SIZE=1e6;
 vector<int>G[SIZE];
