@@ -29,9 +29,9 @@ using namespace std;
 #define PFS(s)              printf("%s",s)
 #define PFCH(ch)            printf("%c",ch)
 
-#define DEBUGI(x)           printf("Debug  %d !!\n",x)
-#define DEBUGD(x)           printf("Debug  %llf !!\n",x)
-#define DEBUGL(x)           printf("Debug  %lld !!\n",x)
+#define DEBUGI(x)           printf("Debug %d !!\n",x)
+#define DEBUGD(x)           printf("Debug %llf !!\n",x)
+#define DEBUGL(x)           printf("Debug %lld !!\n",x)
 #define PC(test)            printf("Case %d: ", test++)
 
 ///*************************************************************///
@@ -79,7 +79,78 @@ int dy[] = {0, 0, 1, -1, -1, 1, -1, 1};
 
 ///************************************************************///
 
+template<class T> inline void SWAP( T &a, T &b ) { a=a^b; b=a^b; a=a^b; }
+template<class T, class T1>inline void Reverse( T1 A[], T i, T j ) { for( ; i<j; i++,j-- ) SWAP( A[i], A[j] ); }
+
+
+inline int BigMod(int a, int p, int M) {
+	int res = 1, x = a;
+	while(p) { if(p&1) res = ((LL)res * x) % M; x = ((LL)x * x) % M; p >>= 1; }
+	return res;
+}
+
+
 ///************************Template End************************///
+
+
+class Converter {
+public:
+    /*parse integer from string*/
+	static inline int parseInt(const char *str) {
+		int ten = 1, len = strlen(str), res = 0, st;
+		str[0] == '-' ? st = 1 : st = 0;
+		REV(i, len-1, st) { res += (int)(str[i] - '0') * ten; ten *= 10; }
+		if(st) res *= -1;
+		return res;
+	}
+
+	template<class T>static inline string toString(T num, const int base) {
+		int res = -1, rem;
+		string str = "";
+		char ch = '\0';
+		while(res != 0) { res = num / base; rem = num % base; num = res; rem>9?ch=(rem-10)+'A':ch=rem+'0'; str.append(1, ch); }
+		reverse(str.begin(), str.end());
+		return str;
+	}
+
+	template<class T>static inline string toString(const T num) { return toString(num, 10); }
+	template<class T>static inline string decimalToBinary(const T num) {return toString(num, 2);}
+	template<class T>static inline string decimalToHex(const T num) {return toString(num, 16);}
+	template<class T>static inline string decimalToOctal(const T num) {return toString(num, 8);}
+
+	static inline int toDecimal(const char *str, const int &base) {
+		int res = 0, tmp;
+		int len = strlen(str), k = 0;
+		char ch;
+	        FOR(i, 0, len-1) {
+			ch = toUpper( str[len-(i+1)] );
+			ch >= '0' && ch <= '9'? tmp = (int)(ch-'0') : tmp = (int)(ch-'A' + 10);
+			res += tmp * POW(base, i);
+	        }
+		return res;
+	}
+
+	static inline int binaryToDecimal(const char *str) { return toDecimal(str, 2); }
+	static inline int hexToDecimal(const char *str) { return toDecimal(str, 16); }
+	static inline int octalToDecimal(const char *str) { return toDecimal(str, 8); }
+
+	static inline int toUpper(char ch) { return ch>='a'&&ch<='z'? ch=ch-'a'+'A':ch; }
+	static inline int toLower(char ch) { return ch>='A'&&ch<='Z'? ch=ch-'A'+'a':ch; }
+};
+
+
+
+class BitMan {
+private:
+	template<class T>static inline T _help_getXOR(T a) { T res[] = {a,1,a+1,0}; return res[a%4]; }
+public:
+	/* Returns maximum XOR in range l to r (inclusive) */
+	template<class T>static inline T maxXOR(T l, T r) { T q = l ^ r, a = 1; while(q){ q >>= 1; a <<= 1; } return --a; }
+
+	/* Get XOR between range l to r (inclusive) */
+	template<class T>static inline T getXOR(T l, T r) { return _help_getXOR(r)^_help_getXOR(l-1); }
+};
+
 
 const int SIZE=1e6;
 vector<int>G[SIZE];
